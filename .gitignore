@@ -1,0 +1,33 @@
+# Virtual environments
+myenv/
+venv/
+env/
+.env
+
+# Temporary audio files
+chunks1/
+output_chunks/
+*.wav
+
+# Test files
+*.pdf
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,121 @@
+/* === App background and base text === */
+.stApp {
+    background-color: #F2EDD1;
+    color: #280A3E;
+}
+
+/* === Header block: Logo + Title + Tagline centered === */
+.talktwin-header {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    gap: -1px; /* space between logo and title */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Smaller logo */
+.talktwin-header img {
+    width: 70px !important;
+    height: auto !important;
+}
+
+/* Title styling */
+.talktwin-header h1 {
+    font-size: 2.9rem !important;
+    font-weight: bold !important;
+    color: #280A3E !important;
+    font-family: Papyrus, fantasy !important;
+    margin: 0 !important;
+}
+
+/* Tagline below title */
+.talktwin-tagline {
+    text-align: left;
+    color: #280A3E;
+    font-family: 'Arial', sans-serif;
+    margin-top: 5px;
+    font-size: 1.1rem;
+}
+
+/* === Buttons === */
+.stButton>button {
+    background-color: #689B8A;
+    color: #F2EDD1;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.stButton>button:hover {
+    background-color: #5A8676;
+}
+.stButton>button:active {
+    background-color: #4C7263;
+}
+
+/* === Selectbox + File Uploader === */
+.stSelectbox, .stFileUploader {
+    background-color: #F9CB99;
+    border-radius: 8px;
+    padding: 10px;
+    color: #280A3E;
+}
+.stSelectbox div[data-baseweb="select"] > div {
+    background-color: #F9CB99;
+    color: #280A3E;
+}
+
+/* === Progress bar === */
+.stProgress .st-bo {
+    background-color: #689B8A;
+}
+
+/* === Success + Info messages === */
+.stSuccess {
+    background-color: #689B8A !important;
+    color: #F2EDD1 !important;
+    border-radius: 8px;
+    padding: 10px;
+}
+.stInfo {
+    background-color: #F9CB99 !important;
+    color: #280A3E !important;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* === Section headers === */
+h2 {
+    color: #280A3E;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.8rem;   /* adjust size */
+}
+
+h3 {
+    color: #280A3E;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.4rem;   /* adjust size */
+}
+
+/* === Audio player === */
+.stAudio {
+    background-color: #F9CB99;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* === Download Button === */
+.stDownloadButton>button {
+    background-color: #F9CB99;
+    color: #280A3E;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.stDownloadButton>button:hover {
+    background-color: #E8BA88;
+}
