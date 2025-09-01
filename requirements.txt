@@ -1,9 +1,17 @@
-# Core dependencies for TalkTwin app
+# Streamlit UI
 streamlit>=1.18.0
-PyPDF2>=3.0.0
-TTS>=0.22.0
-pydub>=0.25.0
-torch>=2.0.0
-torchaudio>=2.0.0
-numpy>=1.22.0
-soundfile>=0.13.0
+
+# PDF extraction
+PyPDF2==3.0.1
+
+# TTS engine (Coqui)
+TTS==0.22.0
+
+# Audio processing
+pydub==0.25.1
+soundfile==0.13.0
+numpy==1.24.4
+
+# Torch + torchaudio (match with TTS 0.22.0)
+torch==2.0.1
+torchaudio==2.0.2
