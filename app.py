@@ -8,11 +8,18 @@ import streamlit as st
 CHUNK_SIZE = 2000
 TEMP_DIR = "chunks1"
 OUTPUT_DIR = "output_chunks"
-os.makedirs(TEMP_DIR, exist_ok=True)
-os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-tts_base = TTS(model_name="tts_models/en/vctk/vits")  # Base TTS model
-tts_clone = TTS("voice_conversion_models/multilingual/vctk/freevc24")  # Voice cloning
+# Initialize TTS models with caching
+@st.cache_resource
+def load_tts_models():
+    """Load TTS models with Streamlit caching"""
+    try:
+        tts_base = TTS(model_name="tts_models/en/vctk/vits")
+        tts_clone = TTS("voice_conversion_models/multilingual/vctk/freevc24")
+        return tts_base, tts_clone
+    except Exception as e:
+        st.error(f"Error loading TTS models: {str(e)}")
+        return None, None
 
 SPEAKERS = {
     "p225": "Female - English",
@@ -53,10 +60,18 @@ def merge_audio(files, output_file):
 
 st.set_page_config(page_title="TalkTwin", page_icon="🗣️", layout="wide")
 
-css_path = os.path.join(os.path.dirname(__file__), "styles.css")
-with open(css_path, "r") as f:
-    css = f.read()
-st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+# Load CSS if available
+try:
+    css_path = os.path.join(os.path.dirname(__file__), "styles.css")
+    with open(css_path, "r") as f:
+        css = f.read()
+    st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    st.warning("CSS file not found. Using default styling.")
+
+# Deployment notice
+if 'STREAMLIT_CLOUD' in os.environ or 'STREAMLIT_SHARING' in os.environ:
+    st.info("🚀 Running on Streamlit Cloud! First-time model loading may take a few minutes.")
 
 logo_path = os.path.join(os.path.dirname(__file__), "talktwin_logo.png")
 
@@ -91,6 +106,16 @@ if pdf_file:
     )
 
     if st.button("🎙️ Generate Audio", type="primary"):
+        # Load TTS models
+        tts_base, tts_clone = load_tts_models()
+        if tts_base is None:
+            st.error("Failed to load TTS models. Please try again.")
+            st.stop()
+
+        # Create directories
+        os.makedirs(TEMP_DIR, exist_ok=True)
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+
         with st.spinner("Extracting text and generating audio..."):
             reader = PyPDF2.PdfReader(pdf_file)
             full_text = ""
@@ -141,6 +166,12 @@ if "base_audio" in st.session_state:
     )
 
     if voice_file and st.button("🎤 Clone in My Voice", type="primary"):
+        # Load TTS models
+        tts_base, tts_clone = load_tts_models()
+        if tts_clone is None:
+            st.error("Failed to load voice cloning model. Please try again.")
+            st.stop()
+
         with st.spinner("Cloning audio to your voice..."):
             cloned_chunk_files = []
             progress_bar = st.progress(0)
@@ -148,7 +179,7 @@ if "base_audio" in st.session_state:
             temp_voice_path = os.path.join(TEMP_DIR, "voice_sample.wav")
             with open(temp_voice_path, "wb") as f:
                 f.write(voice_file.read())
-            
+
             for i, chunk_file in enumerate(st.session_state.chunk_files):
                 status_text.text(f"Cloning chunk {i+1}/{len(st.session_state.chunk_files)}...")
                 output_path = os.path.join(OUTPUT_DIR, f"cloned_{i}.wav")
